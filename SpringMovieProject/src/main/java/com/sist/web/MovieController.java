@@ -18,10 +18,11 @@ public class MovieController {
 	@Autowired
     private MovieManager mgr;
 	@RequestMapping("movie/main.do")
-	public String movie_main(int no,Model model)
+	public String movie_main(String no,Model model)
 	{
-		
-		List<MovieVO> list=mgr.jsonAllData(no);
+		if(no==null)
+			no="1";
+		List<MovieVO> list=mgr.jsonAllData(Integer.parseInt(no));
 		model.addAttribute("list", list);
 		return "movie/main";
 	}
