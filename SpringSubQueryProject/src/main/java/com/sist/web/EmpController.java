@@ -30,12 +30,21 @@ import com.sist.dao.*;
 public class EmpController {
 	 @Autowired
      private EmpDAO dao;
-	 @RequestMapping("emp/list.do")
+	 @RequestMapping("emp/list2.do")
 	 public String emp_list(Model model)
 	 {
 		 List<EmpVO> list=dao.empListData();
 		 model.addAttribute("list", list); // request.setAttribute("list",list)
-		 return "list";
+		 return "list2";
+	 }
+	 @RequestMapping("emp/sublist.do")
+	 public String emp_sublist(String ename,Model model)
+	 {
+		 if(ename==null)
+			 ename="KING";
+		 List<EmpVO> list=dao.empGroupData(ename);
+		 model.addAttribute("list", list);
+		 return "sublist";
 	 }
 }
 

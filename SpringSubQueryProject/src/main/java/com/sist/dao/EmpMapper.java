@@ -41,9 +41,11 @@ public interface EmpMapper {
 		 +"(SELECT loc FROM dept d WHERE e.deptno=d.deptno) as loc "
 		 +"FROM emp e")
   public List<EmpVO> empListData();
-  @Select("SELECT empno,ename,job,hiredate,sal,deptno "
-		 +"FROM emp "
-		 +"WHERE deptno=(SELECT deptno FROM emp WHERE ename=#{ename})")
+  @Select("SELECT empno,ename,job,hiredate,sal,deptno,"
+		  +"(SELECT dname FROM dept d WHERE e.deptno=d.deptno) as dname,"
+		  +"(SELECT loc FROM dept d WHERE e.deptno=d.deptno) as loc "
+		  +"FROM emp e "
+		  +"WHERE deptno=(SELECT deptno FROM emp WHERE ename=#{ename})")
   public List<EmpVO> empGroupData(String ename);
 }
 
