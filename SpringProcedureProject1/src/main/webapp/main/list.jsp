@@ -18,6 +18,13 @@
    <div class="container">
     <div class="row">
       <h3 class="text-center">학생정보</h3>
+      <table class="table">
+        <tr>
+          <td>
+            <a href="insert.do" class="btn btn-sm btn-danger">등록</a>
+          </td>
+        </tr>
+      </table>
       <table class="table table-striped">
        <tr class="success">
          <th>학번</th>
@@ -25,6 +32,9 @@
          <th>국어</th>
          <th>영어</th>
          <th>수학</th>
+         <th>총점</th>
+         <th>평균</th>
+         <th></th>
        </tr>
        <c:forEach var="vo" items="${list }">
          <tr>
@@ -33,6 +43,12 @@
            <td>${vo.kor }</td>
            <td>${vo.eng }</td>
            <td>${vo.math }</td>
+           <td>${vo.total }</td>
+           <td>${vo.avg }</td>
+           <td>
+             <a href="update.do?hakbun=${vo.hakbun }" class="btn btn-sm btn-success">수정</a> 
+             <a href="delete.do?hakbun=${vo.hakbun }" class="btn btn-sm btn-info">삭제</a> 
+           </td>
          </tr>
        </c:forEach>
       </table>

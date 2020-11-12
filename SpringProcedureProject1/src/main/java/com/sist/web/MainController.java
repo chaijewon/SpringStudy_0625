@@ -20,6 +20,38 @@ public class MainController {
 		model.addAttribute("list", list);
 		return "list";
 	}
+	// ?name=aaa&kor=100&eng=80&math=70
+	@RequestMapping("main/insert.do")
+	public String main_insert()
+	{
+		return "insert";
+	}
+	@RequestMapping("main/insert_ok.do")
+	public String main_insert_ok(StudentVO vo)
+	{
+		dao.studentInsert(vo);
+		return "redirect:list.do";
+	}
+	@RequestMapping("main/delete.do")
+	public String main_delete(int hakbun)
+	{
+		dao.studentDelete(hakbun);
+		return "redirect:list.do";
+	}
+	@RequestMapping("main/update.do")
+	public String main_update(int hakbun,Model model)
+	{
+		StudentVO vo=dao.studentDetailData(hakbun);
+		model.addAttribute("vo", vo);
+		return "update";
+	}
+	@RequestMapping("main/update_ok.do")
+	public String main_update_ok(StudentVO vo)
+	{
+		dao.studentUpdate(vo);
+		return "redirect:list.do";
+	}
+
 }
 
 
