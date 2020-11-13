@@ -32,6 +32,7 @@
     		);
     	})
     });
+    
     $.getJSON("rank.json",function(data){
     	$.each(data["datas"],function(index,value){
     		$('#table1').append(
