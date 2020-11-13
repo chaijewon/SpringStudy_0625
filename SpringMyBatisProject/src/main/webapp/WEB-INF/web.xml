@@ -6,19 +6,19 @@
 		<servlet-name>dispatcher</servlet-name>
 		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
 		<!-- 5버전 -->
-		<init-param>
+		<!-- <init-param>
 		 <param-name>contextClass</param-name>
 		 <param-value>org.springframework.web.context.support.AnnotationConfigWebApplicationContext</param-value>
 		</init-param>
 		<init-param>
 		 <param-name>contextConfigLocation</param-name>
 		 <param-value>com.sist.config.AppConfig</param-value>
-		</init-param>
+		</init-param> -->
 		<!-- WebApplicationContext(4버전) -->
-		<!-- <init-param>
+		<init-param>
 			<param-name>contextConfigLocation</param-name>
 			<param-value>/WEB-INF/config/application-*.xml</param-value>
-		</init-param> -->
+		</init-param>
 	</servlet>
 		
 	<servlet-mapping>

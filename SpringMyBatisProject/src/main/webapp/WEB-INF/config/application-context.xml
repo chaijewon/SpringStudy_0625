@@ -15,6 +15,17 @@
 		http://mybatis.org/schema/mybatis-spring http://mybatis.org/schema/mybatis-spring-1.2.xsd
 		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.3.xsd">
     <context:component-scan base-package="com.sist.*"/>
+    <mvc:annotation-driven> 
+       <mvc:message-converters> 
+          <bean class="org.springframework.http.converter.StringHttpMessageConverter"> 
+              <property name="supportedMediaTypes"> 
+                 <list> 
+                   <value>text/html;charset=UTF-8</value> 
+                 </list> 
+              </property> 
+           </bean> 
+       </mvc:message-converters> 
+     </mvc:annotation-driven>
     <bean id="ds"
       class="org.apache.commons.dbcp.BasicDataSource"
       p:driverClassName="oracle.jdbc.driver.OracleDriver"

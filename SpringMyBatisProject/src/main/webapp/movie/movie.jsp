@@ -55,6 +55,33 @@
     	})
     });
   });
+  
+  function detail(mno)
+  {
+	  $.getJSON("movie.json",function(data){
+	    	$.each(data["datas"],function(index,value){
+	    		if(value.mno==mno)
+	    		{
+	    		
+	    			$('#poster').attr("src",value.poster);
+	    			$('#title').text(value.title);
+	    			$('#director').text(value.director);
+	    			$('#actor').text(value.actor);
+	    			$('#genre').text(value.genre);
+	    			$('#grade').text(value.grade);
+	    			$('#story').text(value.story);
+	    			
+	    			$("#dialog").dialog({ 
+	    	    		 autoOpen: true, 
+	    	    		 width: 450, 
+	    	    		 height:550,
+	    	             modal: true
+	    	    	});
+	    			return true;
+	    		}
+	    	})
+	    });
+  }
   </script>
   
 </head>
@@ -94,7 +121,9 @@
       <div id="dialog" title="영화 상세" style="display:none">
         <table class="table">
           <tr>
-            <td width="30%" class="text-center" rowspan="5" id="poster"></td>
+            <td width="30%" class="text-center" rowspan="5">
+              <img src="" width=100% id="poster">
+            </td>
             <td colspan="2" id="title"></td>
           </tr>
           <tr>
