@@ -47,9 +47,11 @@ public class MusicController {
 	   map.put("start", start);
 	   map.put("end", end);
 	   List<MusicVO> list=dao.musicListData(map);
-	   
+	   int totalpage=dao.musicTotalPage();
 	   // 전송 
 	   model.addAttribute("list", list);
+	   model.addAttribute("curpage", curpage);
+	   model.addAttribute("totalpage", totalpage);
 	   return "music/list";//ViewResolver prefix="/"리턴값suffix=".jsp"
    }
 }

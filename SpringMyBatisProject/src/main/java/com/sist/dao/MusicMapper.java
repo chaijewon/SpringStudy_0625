@@ -22,6 +22,8 @@ public interface MusicMapper {
    @Select("SELECT * FROM genie_music "
 		  +"WHERE mno=#{mno}")
    public MusicVO musicDetailData(int mno);
+   @Select("SELECT CEIL(COUNT(*)/10.0) FROM genie_music")
+   public int musicTotalPage();
 }
 
 

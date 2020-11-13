@@ -26,4 +26,8 @@ public class MusicDAO {
 	{
 		return mapper.musicDetailData(mno);
 	}
+	public int musicTotalPage()
+	{
+		return mapper.musicTotalPage();
+	}
 } 

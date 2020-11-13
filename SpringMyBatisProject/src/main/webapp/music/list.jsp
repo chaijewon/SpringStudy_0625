@@ -74,6 +74,13 @@
         </c:forEach>
       </table>
     </div>
+    <div class="row">
+      <div class="text-center">
+        <a href="list.do?page=${curpage>1?curpage-1:curpage }" class="btn btn-sm btn-success">이전</a>
+          ${curpage } page / ${totalpage } pages
+        <a href="list.do?page=${curpage<totalpage?curpage+1:curpage }" class="btn btn-sm btn-warning">다음</a>
+      </div>
+    </div>
     <div id="dialog" title="" style="display:none">
      <iframe id="movie" src="" width="370" height="280"></iframe>
     </div>
