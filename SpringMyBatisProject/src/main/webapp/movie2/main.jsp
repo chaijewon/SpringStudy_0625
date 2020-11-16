@@ -64,7 +64,10 @@ $(function(){
 			}
 		  });
 	});
+	//$( "#effect" ).effect( "fold", options, 500, callback );
+	
 })
+
 </script>
 </head>
 <%--
@@ -87,7 +90,7 @@ $(function(){
        
        </div>
        <div class="col-sm-7">
-         <table class="table table-striped">
+         <table class="table table-striped" id="effect"> 
            <thead>
              <tr>
               <th class="text-center"></th>
