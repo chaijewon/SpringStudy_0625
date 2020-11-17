@@ -11,4 +11,15 @@ public class MainController {
 	   System.out.println("1");
 	   return "main";
    }
+   @RequestMapping("board/list.do")
+   public String board_list()
+   {
+	   return "board/list";
+   }
+   
+   @RequestMapping("notice/list.do")
+   public String notice_list()
+   {
+	   return "notice/list";
+   }
 }

@@ -12,6 +12,28 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
   <link rel="stylesheet" href="../css/style.css">
+  <script type="text/javascript">
+  /* $(function () {
+	    $("body div").fadeIn(500, function () {
+	        $(this).animate({
+	            "top": "150px"
+	        },1000);
+	    });
+	    
+	    $("a").click(function () {
+	        var url = $(this).attr("href");
+	        $("body div").animate({
+	            "opacity": "0",
+	            "top": "10px"
+	        },500, function () {
+	            document.location.href = url;
+	        });
+	        
+	        return false;
+	    });
+	}); */
+
+  </script>
 </head>
 <body>
 <body id="myPage" data-spy="scroll" data-target=".navbar" data-offset="60">
