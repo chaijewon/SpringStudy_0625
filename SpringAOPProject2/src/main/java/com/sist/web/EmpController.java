@@ -36,6 +36,8 @@ public class EmpController {
    {
 	   EmpVO vo=dao.empDetailData(empno);
 	   model.addAttribute("vo", vo);
+	   
+	   dao.deptInsert(100, "자재부", "인천");
 	   return "emp/detail";
    }
 }

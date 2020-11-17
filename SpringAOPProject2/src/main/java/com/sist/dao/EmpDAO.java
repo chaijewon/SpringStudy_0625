@@ -89,4 +89,52 @@ public class EmpDAO {
 		   
 		   return vo;
 	   }
+	   
+	   public void deptInsert(int deptno,String dname,String loc)
+	   {
+		   try
+		   {
+			   dbConn.getConnection();
+			   conn=dbConn.getConn();
+			   conn.setAutoCommit(false);
+			   String sql="INSERT INTO dept2 VALUES(?,?,?)";
+			   ps=conn.prepareStatement(sql);
+			   ps.setInt(1, deptno);
+			   ps.setString(2, dname);
+			   ps.setString(3, loc);
+			   ps.executeUpdate();
+			   
+			   sql="INSERT INTO dept2 VALUES(?,?,?)";
+			   ps=conn.prepareStatement(sql);
+			   ps.setInt(1, deptno);
+			   ps.setString(2, dname);
+			   ps.setString(3, loc);
+			   ps.executeUpdate();
+			   
+			   conn.commit();
+		   }catch(Exception ex)
+		   {
+			   try
+			   {
+				   conn.rollback();
+			   }catch(Exception e){}
+			   System.out.println(ex.getMessage());
+		   }
+		   finally
+		   {
+			   try
+			   {
+				   conn.setAutoCommit(true);
+			   }catch(Exception e){}
+			   dbConn.disConnection();
+		   }
+	   }
 }
+
+
+
+
+
+
+
+

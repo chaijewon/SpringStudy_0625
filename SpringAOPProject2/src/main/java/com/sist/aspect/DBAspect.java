@@ -1,6 +1,11 @@
 package com.sist.aspect;
 
+import org.aspectj.lang.JoinPoint;
+import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.After;
+import org.aspectj.lang.annotation.AfterReturning;
+import org.aspectj.lang.annotation.AfterThrowing;
+import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,6 +41,36 @@ import com.sist.dao.*;
  *    2. 어디서 ==> JoinPoint
  *    =============================== Advice
  *    Advice => 여러개 => Aspect
+ *    
+ *    Proxy 
+ *    
+ *    public class A
+ *    {
+ *       public void display()
+ *       {
+ *          System.out.println("A Call...");
+ *       }
+ *    }
+ *    
+ *    public class Proxy
+ *    {
+ *        A a;
+ *        public Proxy(A a)
+ *        {
+ *           this.a=a;
+ *        }
+ *        public void display()
+ *        {
+ *           System.out.println("Before");
+ *           a.display();
+ *           System.out.println("After");
+ *        }
+ *    }
+ *    
+ *    A a=new A();
+ *    Proxy p=new Proxy(a);
+ *    p.display();
+ *    
  */
 @Aspect
 @Component
@@ -52,6 +87,33 @@ public class DBAspect {
    public void after()
    {
 	   dbConn.disConnection();
+   }
+   /*
+    *    Around
+    *    =======
+    *      1. 자동 호출 setAutoCommit(false)
+    *      == 핵심 코딩  SQL 문장 수행
+    *      2. 자동 호출 commit()
+    */
+   @Around("execution(* com.sist.web.EmpController.*(..))")
+   public Object around(ProceedingJoinPoint jp) throws Throwable
+   {
+	   Object obj=null;
+	   System.out.println("사용자 호출전:"+jp.getSignature().getName());
+	   obj=jp.proceed();// 메소드 호출 
+	   System.out.println("사용자 호출후:"+jp.getSignature().getName());
+	   return obj;
+   }
+   @AfterReturning(value="execution(* com.sist.web.EmpController.*(..))",returning="val")
+   public void afterReturning(JoinPoint jp,Object val)
+   {
+	   System.out.println("리턴값:"+val);
+   }
+   
+   @AfterThrowing(value="execution(* com.sist.web.EmpController.*(..))",throwing="ex")
+   public void afterThrowing(Throwable ex)
+   {
+	   System.out.println(ex.getMessage());
    }
 }
 
