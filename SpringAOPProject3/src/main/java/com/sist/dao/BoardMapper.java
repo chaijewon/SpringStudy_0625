@@ -4,6 +4,7 @@ import java.util.*;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.SelectKey;
+import org.apache.ibatis.annotations.Update;
 public interface BoardMapper {
    @Select("SELECT no,subject,name,regdate,hit,gt,num "
 		  +"FROM (SELECT no,subject,name,regdate,hit,gt,rownum as num "
@@ -18,4 +19,24 @@ public interface BoardMapper {
 		  +"VALUES(#{no},#{name},#{subject},#{content},#{pwd},"
 		  +"(SELECT NVL(MAX(gi)+1,1) FROM srBoard))")
    public void boardInsert(BoardVO vo);
+   
+   // 상세보기 
+   @Update("UPDATE srBoard SET "
+		  +"hit=hit+1 "
+		  +"WHERE no=#{no}")
+   public void boardHitIncrement(int no);
+   
+   @Select("SELECT no,name,subject,content,regdate,hit "
+		  +"FROM srBoard "
+		  +"WHERE no=#{no}")
+   public BoardVO boardDetailData(int no);
 }
+
+
+
+
+
+
+
+
+

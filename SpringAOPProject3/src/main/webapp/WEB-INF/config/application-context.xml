@@ -46,7 +46,22 @@
         p:mapperInterface="com.sist.dao.MemberMapper"
         p:sqlSessionFactory-ref="ssf"
       />
-      
+      <bean id="mapper3"
+        class="org.mybatis.spring.mapper.MapperFactoryBean"
+        p:mapperInterface="com.sist.dao.RecipeMapper"
+        p:sqlSessionFactory-ref="ssf"
+      />
+      <mvc:annotation-driven> 
+       <mvc:message-converters> 
+          <bean class="org.springframework.http.converter.StringHttpMessageConverter"> 
+              <property name="supportedMediaTypes"> 
+                 <list> 
+                   <value>text/html;charset=UTF-8</value> 
+                 </list> 
+              </property> 
+           </bean> 
+       </mvc:message-converters> 
+     </mvc:annotation-driven>
       <!-- ViewReSolver : JSP를 찾아서 request를 전송 -->
       <!-- 
           @Controller

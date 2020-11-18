@@ -18,4 +18,21 @@ public class BoardDAO {
 	{
 		mapper.boardInsert(vo);
 	}
+	
+	public BoardVO boardDetailData(int no)
+	{
+		// 조회수 증가
+		mapper.boardHitIncrement(no);
+		return mapper.boardDetailData(no);
+	}
 }
+
+
+
+
+
+
+
+
+
+

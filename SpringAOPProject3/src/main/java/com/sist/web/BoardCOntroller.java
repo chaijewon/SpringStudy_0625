@@ -47,6 +47,17 @@ public class BoardCOntroller {
 	   dao.boardInsert(vo);
 	   return "redirect:list.do";
    }
+   
+   @GetMapping("board/detail.do")
+   public String board_detail(int no,Model model)
+   {
+	   //Model => 해당 JSP로 데이터 전송 
+	   // 데이터베이스 연동 
+	   BoardVO vo=dao.boardDetailData(no);
+	   // 데이터 전송
+	   model.addAttribute("vo", vo);
+	   return "board/detail";
+   }
 }
 
 
