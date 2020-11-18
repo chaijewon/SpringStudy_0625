@@ -43,6 +43,12 @@
         <tr>
 	        <td class="text-center btd" width=10%>${vo.no }</td>
 	        <td class="text-left btd" width=45%>
+	         <c:if test="${vo.getGt()>0 }">
+	           <c:forEach var="i" begin="1" end="${vo.getGt() }">
+	             &nbsp;&nbsp;&nbsp;
+	           </c:forEach>
+	                         ▶
+	         </c:if>
 	         <a href="detail.do?no=${vo.no }">${vo.subject }</a>
 	        </td>
 	        <td class="text-center btd" width=15%>${vo.name }</td>

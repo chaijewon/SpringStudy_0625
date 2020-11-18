@@ -65,6 +65,16 @@ public class BoardCOntroller {
 	   model.addAttribute("no", no);
 	   return "board/reply";
    }
+   /*
+    *   <a> , location.href=""  => GetMapping
+    *   <form> => PostMapping
+    */
+   @PostMapping("board/reply_ok.do")
+   public String board_reply_ok(int pno,BoardVO vo)
+   {
+	   dao.boardReplyInsert(pno, vo);
+	   return "redirect:../board/list.do";
+   }
 }
 
 
