@@ -44,7 +44,7 @@
         <tr>
           <td colspan="4" class="text-right">
            <c:if test="${sessionScope.id!=null }">
-            <a href="#" class="btn btn-xs btn-danger">답변</a>
+            <a href="../board/reply.do?no=${vo.no }" class="btn btn-xs btn-danger">답변</a>
             <a href="#" class="btn btn-xs btn-success">수정</a>
             <a href="#" class="btn btn-xs btn-info">삭제</a>
            </c:if>

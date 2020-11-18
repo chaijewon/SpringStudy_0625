@@ -26,7 +26,10 @@
        p:password="happy"
    />
    <aop:aspectj-autoproxy/>
-   <!-- <tx:jta-transaction-manager/> -->
+   <bean id="transactionManager"
+       class="org.springframework.jdbc.datasource.DataSourceTransactionManager"
+       p:dataSource-ref="ds"
+    />
    <!-- 
           1. 오라클 : XE
           2. Java => openjdk 15

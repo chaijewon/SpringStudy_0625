@@ -58,6 +58,13 @@ public class BoardCOntroller {
 	   model.addAttribute("vo", vo);
 	   return "board/detail";
    }
+   
+   @GetMapping("board/reply.do")
+   public String board_reply(int no,Model model)
+   {
+	   model.addAttribute("no", no);
+	   return "board/reply";
+   }
 }
 
 

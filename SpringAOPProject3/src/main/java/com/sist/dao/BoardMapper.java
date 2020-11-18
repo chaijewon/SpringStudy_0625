@@ -30,6 +30,37 @@ public interface BoardMapper {
 		  +"FROM srBoard "
 		  +"WHERE no=#{no}")
    public BoardVO boardDetailData(int no);
+   
+   // 답변 
+   @Select("SELECT gi,gs,gt FROM srBoard "
+		  +"WHERE no=#{no}")
+   public BoardVO boardParentData(int no);
+   /*                     gi   gs  gt
+    *   AAAAA              1   0   0
+    *     
+    *     =>BBBBB          1   2   1
+    *     =>OOOOO          1   1   1
+    *       =>DDDDD        1   3   2
+    *     =>CCCCC          1   4   1
+    *     
+    *   KKKKKK             2   0
+    */
+   @Update("UPDATE srBoard SET "
+		  +"gs=gs+1 "
+		  +"WHERE gi=#{gi} AND gs>#{gs}")
+   public void boardGsIncrement(BoardVO vo);
+   
+   @SelectKey(keyProperty="no",resultType=int.class,before=true,
+		   statement="SELECT NVL(MAX(no)+1,1) as no FROM srBoard")
+   @Insert("INSERT INTO srBoard(no,name,subject,content,pwd,gi,gs,gt,root) "
+		  +"VALUES(#{no},#{name},#{subject},#{content},#{pwd},"
+		  +"#{gi},#{gs},#{gt},#{root})")
+   public void boardReplyInsert(BoardVO vo);
+   
+   @Update("UPDATE srBoard SET "
+		  +"depth=depth+1 "
+		  +"WHERE no=#{no}")
+   public void boardDepthIncrement(int no);
 }
 
 
