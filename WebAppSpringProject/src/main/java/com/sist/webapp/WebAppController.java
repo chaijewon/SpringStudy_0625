@@ -66,6 +66,30 @@ public class WebAppController {
 	   result=String.valueOf(total);
 	   return result;
    }
+   /*
+    *  private int no,cateno,hit;
+    private String title,poster,regdate,genre,grade,actor,score,director,story,key;
+    */
+   @RequestMapping(value="movie/detail.do",produces="text/plain;charset=UTF-8")
+   public String movie_detail(int no)
+   {
+	   String result="";
+	   try
+	   {
+		   MovieVO vo=dao.movieDetailData(no);
+		   JSONObject obj=new JSONObject(); // {}
+		   obj.put("poster", "http:"+vo.getPoster());
+		   obj.put("title", vo.getTitle());
+		   obj.put("director", vo.getDirector());
+		   obj.put("actor", vo.getActor());
+		   obj.put("genre", vo.getGenre());
+		   obj.put("score", vo.getScore());
+		   obj.put("story", vo.getStory());
+		   
+		   result=obj.toJSONString();
+	   }catch(Exception ex){}
+	   return result;
+   }
 }
 
 
