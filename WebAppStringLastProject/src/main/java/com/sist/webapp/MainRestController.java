@@ -58,6 +58,31 @@ public class MainRestController {
 	   }catch(Exception ex){}
 	   return result;
    }
+   @RequestMapping(value="kotlin_food.do",produces="text/plain;charset=UTF-8")
+   public String food_kotlin_food(int cateno)
+   {
+	   String result="";
+	   try
+	   {
+		   List<FoodDetailVO> list=dao.foodCategoryDetailData(cateno);
+		   // list에 존재하는 데이터를 JSON으로 변경 
+		   //[]
+		   JSONArray arr=new JSONArray();
+		   for(FoodDetailVO vo:list)
+		   {
+			   JSONObject obj=new JSONObject();
+			   obj.put("no", vo.getNo());
+			   obj.put("title", vo.getTitle());
+			   obj.put("score", vo.getScore());
+			   obj.put("poster", vo.getPoster());
+			   obj.put("addr", vo.getAddr());
+			   obj.put("tel", vo.getTel());
+			   arr.add(obj);
+		   }
+		   result=arr.toJSONString();
+	   }catch(Exception ex){}
+	   return result;
+   }
 }
 
 

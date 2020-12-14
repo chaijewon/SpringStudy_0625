@@ -15,5 +15,9 @@ public interface FoodMapper {
 		  +"WHERE no BETWEEN #{start} AND #{end}")
    public List<FoodCategoryVO> foodCategoryData(Map map);
    // 2. Category별 맛집 찾기
+   @Select("SELECT poster,title,no,score,addr,tel "
+		  +"FROM food_detail "
+		  +"WHERE cateno=#{cateno}")
+   public List<FoodDetailVO> foodCategoryDetailData(int cateno);
    // 3. 맛집 상세보기 
 }

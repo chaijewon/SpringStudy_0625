@@ -72,6 +72,13 @@ public class MainController {
 	   
 	   return "list";
    }
+   @RequestMapping("food.do")
+   public String food_food_list(int cateno,Model model)
+   {
+	   List<FoodDetailVO> list=dao.foodCategoryDetailData(cateno);
+	   model.addAttribute("list", list);
+	   return "food";
+   }
 }
 
 
