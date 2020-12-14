@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app version="2.5" xmlns="http://java.sun.com/xml/ns/javaee"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee https://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
+    <!-- 
+                 분석
+        1. web.xml
+           ========
+                      프레임워크 
+           DispatcherServlet ==> Spring
+           FilterDispatcher  ==> Struts
+        2. 등록 파일 
+           application-*.xml ==> 클래스와 클래스의 관계도 
+        3. Model (@Controller,@RestController) ==> DAO => JSP 
+     -->
+    <!-- 
+       web.xml => tomcat이 인식하는 파일 
+                  = servlet 파일을 실행주는 역할 
+                  = 에러가 났을 경우에 해당페이지 이동 
+       1. servlet 등록 : 스프링 (컨트롤러가 서블릿을 제작)
+       2. 스프링 : 반드시 한글 변환 코드 등록 
+       3. 에러처리 
+       
+       *** 스프링 (MVC)
+       1. 사용자 요청 : .do
+       2. DispatcherServlet => 요청을 받는다 
+       3. 요청을 처리할 클래스 찾기(@RequestMapping,@GetMapping,@PostMapping)
+          DispatcherServlet => HandlerMapping => 메소드를 호출 (invoke())
+          *** 수행 (Jsoup,MongoDB,Mybatis이용 => 클래스에 대한 메모리 할당)
+                          메모리 할당을 하기 위한 필요한 데이터=>첨부 (DI)
+             => 반복적인 수행이 있을 수도 있다 => AOP
+             => DI,AOP를 사용할 경우, 메모리 할당 요청 => 반드시 XML,Annotation
+       4. 수행된 결과를 => DispatcherServlet으로  다시 전송한다
+       5. 결과값을 Model에 담아서 => ViewResolver로 전송
+       6. ViewResolver => Model => request에 담아서 ==> 해당 JSP로 전송
+       7. 받은 JSP에서 화면 출력 
+     -->
+     <!-- Controller 등록 
+          <url-pattern>*.do</url-pattern> => list.do
+          DispatcherServlet를 메모리 할당후에 호출 
+          Servlet은 동작하는 과정 
+          ======================== 생명주기
+          1. 생성자 호출 =>메모리 할당 (톰캣이 한다)
+          2. init() => 파일을 읽어서 멤버변수의 초기화 , 필요한 데이터 읽기
+                       XML파일을 읽어서 처리 
+          3. service() => 클라이언트마다 따라 호출하는 메소드 (쓰레드에서 호출되는 함수)
+             ========= 클라이언트 요청을 받아서 응답을 하는 메소드 
+                          요청시마다 service()를 호출 => run()메소드를 제작
+          4. 화면이 변경이 되거나 , 새로고침,이동 => 자동으로 메모리에서 해제 
+             destory() => Ssytem.gc()
+          ========================
+      -->
+    <servlet>
+		<servlet-name>dispatcher</servlet-name>
+		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+		<!--  필요한 데이터 
+		      1. 프로그래머가 요청한 클래스를 메모리 할당,필요한 데이터 주입,반복을 제거
+		         ============================= ============= ========
+		                 다음에 요청시마다 클래스를 찾아 준다 (DL) , DI           AOP
+		        =================================================== XML파일에 담아준다
+		 -->
+		 <!-- 
+		     DispatcherServlet에서 읽는 파일 지정 
+		  -->
+		<init-param>
+			<param-name>contextConfigLocation</param-name>
+			<param-value>/WEB-INF/config/application-*.xml</param-value>
+		</init-param>
+	</servlet>
+	<!-- 사용자가 요청할때 어떤 URL을 이용할지를 결정  -->
+	<servlet-mapping>
+		<servlet-name>dispatcher</servlet-name>
+		<url-pattern>*.do</url-pattern>
+	</servlet-mapping>
+	<!-- 한글 변환 -->
+	<!-- 
+	     Spring에서 권장 사항 => request를 가급적이면 사용금지
+	                        ========
+	                        접속한 클라이언트의 정보를 가지고 있다 (IP,PORT) : 파밍 => 스프링 5(보안강조)
+	 -->
+	  <filter>
+		    <filter-name>encodingFilter</filter-name>
+		    <filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
+			    <init-param>
+			        <param-name>encoding</param-name>
+			        <param-value>UTF-8</param-value>
+			    </init-param>
+			    <init-param>
+			        <param-name>forceEncoding</param-name>
+			        <param-value>true</param-value>
+			    </init-param>
+		</filter>
+		
+		<!-- /의 형식으로 시작하는 url에 대하여 UTF-8로 인코딩 -->
+		<filter-mapping>
+		    <filter-name>encodingFilter</filter-name>
+		    <url-pattern>/*</url-pattern>
+		</filter-mapping>
+   
+	
+</web-app>

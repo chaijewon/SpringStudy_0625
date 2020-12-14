@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.3.xsd">
+    <!-- MyBatis,MongoDB -->
+    <!-- 오라클 정보 전송 : BasicDataSource  
+         DBCP : 미리 Connection 생성하고 연결한 다음에 처리 
+         Database Connection Pool
+         Connection을 미리 생성 => 저장해서 사용
+                               === Pool
+         ORM (MyBatis(IBatis),Hibernate) : 통일화 (표준화) , 사용하기가 편리하다
+                                           1. 연결,닫기를 자동으로 처리 
+                                           2. 핵심만(SQL)만 작성하면 된다 
+                                           3. 소스코딩이 간결해 진다 
+         Default : maxActive = 8
+                   maxIdle = 8
+    -->
+    <bean id="ds" 
+       class="org.apache.commons.dbcp.BasicDataSource"
+       p:driverClassName="oracle.jdbc.driver.OracleDriver"
+       p:url="jdbc:oracle:thin:@211.238.142.181:1521:XE"
+       p:username="hr"
+       p:password="happy"
+    />
+    <!-- DataSource에 저장된 정보 => 마이바티스 라이브러리로 전송 SqlSessionFactory -->
+    <bean id="ssf"
+       class="org.mybatis.spring.SqlSessionFactoryBean"
+       p:dataSource-ref="ds"
+    />
+    <!-- getConnection,disConnection제작 -->
+    <!-- interface구현  -->
+    <bean id="mapper"
+       class="org.mybatis.spring.mapper.MapperFactoryBean"
+       p:sqlSessionFactory-ref="ssf"
+       p:mapperInterface="com.sist.dao.FoodMapper"
+    />
+</beans>
+
+
+
+
+
+
