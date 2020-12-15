@@ -31,15 +31,20 @@ import org.springframework.web.bind.annotation.RequestMapping;
  *        
  */
 import java.util.*;
+
+import javax.annotation.Resource;
+
 import com.sist.dao.*;
+import com.sist.news.*;
 @Controller
 // web=>Spring을 이용해서 web프로그램 제작 
 @RequestMapping("food/")
 public class MainController {
-   // DAO의 객체를 받는다 
+   // DAO의 객체를 받는다  @Autowired , @Resource(name="id명")(많이 사용)
    @Autowired
    private FoodDAO dao;
-   
+   @Resource(name="mgr")
+   private NewsManager mgr;
    @RequestMapping("list.do")
    public String food_category(String no,Model model)
    {
@@ -100,6 +105,23 @@ public class MainController {
 	   FoodDetailVO vo=dao.foodDetailData(no);
 	   model.addAttribute("vo", vo);
 	   return "detail";
+   }
+   // 디지캡 => 입사하고 => 부서 변경 (Front-end , AI , 데이터베이스)
+   // 모든 업체 => SI,SM,솔루션,프레임워크 => 핸드소프트 , SQI(3000)
+   @RequestMapping("news.do")
+   /*
+    *    news.do  ==>  (fd==null)
+    *    news.do?fd=   (fd=="")
+    */
+   public String food_news(String fd,Model model)
+   {
+	   if(fd==null || fd.equals(""))
+		      fd="맛집";
+	   // 데이터 읽기 
+	   List<Item> list=mgr.newsListData(fd);
+	   // 데이터 보내기 
+	   model.addAttribute("list", list);
+	   return "news";
    }
 }
 
