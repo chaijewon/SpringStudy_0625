@@ -20,4 +20,27 @@ public interface FoodMapper {
 		  +"WHERE cateno=#{cateno}")
    public List<FoodDetailVO> foodCategoryDetailData(int cateno);
    // 3. 맛집 상세보기 
+   /*
+    *   private int no,cateno,good,soso,bad;
+        private String poster,title,score,addr,tel,type,price,menu;
+    */
+   @Select("SELECT * FROM food_detail "
+		  +"WHERE no=#{no}")
+   // MyBatis에 자동 구현 
+   //     ============               ========
+   // XML  resultType                parameterType
+   public FoodDetailVO foodDetailData(int no);
 }
+
+
+
+
+
+
+
+
+
+
+
+
+

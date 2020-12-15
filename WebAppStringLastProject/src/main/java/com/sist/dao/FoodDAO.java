@@ -27,6 +27,11 @@ public class FoodDAO {
    {
 	   return mapper.foodCategoryDetailData(cateno);
    }
+   public FoodDetailVO foodDetailData(int no)
+   {
+	   return mapper.foodDetailData(no);
+			   
+   }
 }
 
 

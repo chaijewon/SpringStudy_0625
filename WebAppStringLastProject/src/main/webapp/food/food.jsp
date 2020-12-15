@@ -25,7 +25,13 @@
             <table class="table">
              <tr>
               <td width=30% class="text-center" rowspan="3">
-               <img src="${vo.poster }" width=300 height=200>
+               <%-- 
+                   Web 
+                   Mobile
+                   ==> 링크 , 버튼 (이벤트) ==> 서버에 요청 (.do)
+                   .do => 서버가 오라클 연결후에 결과값을 요청한 클라이언트로 전송 (화면이 변경)
+                --%>
+               <a href="detail.do?no=${vo.no }"><img src="${vo.poster }" width=300 height=200></a>
               </td>
               <td width=70%><font size="12px">${vo.title }
                  <span style="color:orange">${vo.score }</span></font></td>

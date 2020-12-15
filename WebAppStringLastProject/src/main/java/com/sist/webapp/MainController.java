@@ -79,6 +79,28 @@ public class MainController {
 	   model.addAttribute("list", list);
 	   return "food";
    }
+   /*
+    *    RequestMapping
+    *    GetMapping
+    *    PostMapping 
+    *    =================== 메뉴 설정 (메뉴의 종류)
+    *    
+    *    => JSP   ===> DispatcherServlet ===> Model  ===> DAO
+    *      =====      ==================      ===============
+    *      손님      ===>       매니저(서빙)  =====>           주방 
+    *          detail.do  <==> @RequestMapping  <==> 처리
+    *                                  FoodDetailVO vo=dao.foodDetailData(no);
+    *               model.addAttribute("vo", vo); 
+    *          
+    */
+   @RequestMapping("detail.do")
+   public String food_detail(int no,Model model)
+   {
+	   // 클라이언트 요청한 데이터 읽기 => 오라클 
+	   FoodDetailVO vo=dao.foodDetailData(no);
+	   model.addAttribute("vo", vo);
+	   return "detail";
+   }
 }
 
 
