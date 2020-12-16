@@ -5,6 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.awt.Dialog.ModalExclusionType;
 // Main페이지에서 서비스 역할 
 /*
  *    @Controller
@@ -36,6 +37,8 @@ import javax.annotation.Resource;
 
 import com.sist.dao.*;
 import com.sist.news.*;
+import com.sist.recommand.NaverBlogManager;
+import com.sist.recommand.RecommandManager;
 @Controller
 // web=>Spring을 이용해서 web프로그램 제작 
 @RequestMapping("food/")
@@ -45,6 +48,12 @@ public class MainController {
    private FoodDAO dao;
    @Resource(name="mgr")
    private NewsManager mgr;
+   
+   @Autowired
+   private NaverBlogManager nbm;
+   @Autowired
+   private RecommandManager rm;
+   
    @RequestMapping("list.do")
    public String food_category(String no,Model model)
    {
@@ -122,6 +131,20 @@ public class MainController {
 	   // 데이터 보내기 
 	   model.addAttribute("list", list);
 	   return "news";
+   }
+   
+   @RequestMapping("recommand.do")
+   public String food_recommand()
+   {
+	   return "recommand";
+   }
+   @RequestMapping("recommand_result.do")
+   public String food_recommand_result(String fd,Model model)
+   {
+	   nbm.naverFindData(fd);//xml만들기
+	   List<FoodDetailVO> list=rm.foodRecommandData();
+	   model.addAttribute("list", list);
+	   return "recommand_result";
    }
 }
 

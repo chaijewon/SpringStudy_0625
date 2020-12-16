@@ -6,13 +6,21 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import java.util.*;
+
+import javax.annotation.Resource;
+
 import com.sist.dao.*;
+import com.sist.news.*;
 @RestController
 // 코틀린에서 데이터 받아서 처리 
 @RequestMapping("food/")
 public class MainRestController {
-   @Autowired
+   @Autowired // 스프링 자동으로 해당 객체주소를 찾아서 주입
    private FoodDAO dao;
+   
+   @Resource(name="mgr") // 특정 객체 지정 
+   private NewsManager mgr;
+   
    @RequestMapping(value="kotlin_list.do",produces="text/plain;charset=UTF-8")
    public String food_kotlin_list(String no)
    {
@@ -72,6 +80,7 @@ public class MainRestController {
 		   {
 			   JSONObject obj=new JSONObject();
 			   obj.put("no", vo.getNo());
+			   obj.put("cateno", cateno);
 			   obj.put("title", vo.getTitle());
 			   obj.put("score", vo.getScore());
 			   obj.put("poster", vo.getPoster());
@@ -79,6 +88,88 @@ public class MainRestController {
 			   obj.put("tel", vo.getTel());
 			   arr.add(obj);
 		   }
+		   result=arr.toJSONString();
+	   }catch(Exception ex){}
+	   return result;
+   }
+   /*
+    *    WEB ========> http ======= 서버(Spring)
+    *       <========  http =======
+    *       
+    *    모바일  =======> http ====== 서버(Spring) ==> 클라이언트 프로그램 제작 
+    *         <======= WAP == http ======
+    *    CHAT ==> WS
+    */
+   @RequestMapping(value="kotlin_detail.do",produces="text/plain;charset=UTF-8")
+   public String food_kotlin_detail(int no)
+   {
+	   String result="";
+	   try
+	   {
+		   FoodDetailVO vo=dao.foodDetailData(no);
+		   // {} => 한개의 정보 ==> JSONObject
+		   // [] => 여러개의 정보 ==> JSONArray
+		   String ss=vo.getPoster();
+		   StringTokenizer st=new StringTokenizer(ss,"^");
+		   String[] sss=new String[5];
+		   int i=0;
+		   while(st.hasMoreTokens())
+		   {
+			   sss[i]=st.nextToken();
+			   System.out.println(sss[i]);
+			   i++;
+		   }
+		   JSONObject obj=new JSONObject();
+		   obj.put("no", vo.getNo());//{no:1,cateno:2....} => JavaScript:객체단위
+		   // ==> 자바의 VO를 제작한다 
+		   obj.put("cateno", vo.getCateno());
+		   obj.put("title", vo.getTitle());
+		   obj.put("score", vo.getScore());
+		   obj.put("poster1", sss[0]);
+		   obj.put("poster2", sss[1]);
+		   obj.put("poster3", sss[2]);
+		   obj.put("poster4", sss[3]);
+		   obj.put("poster5", sss[4]);
+		   obj.put("addr", vo.getAddr());
+		   obj.put("tel", vo.getTel());
+		   obj.put("type", vo.getType());
+		   obj.put("price", vo.getPrice());
+		   obj.put("menu", vo.getMenu());
+		   obj.put("good", vo.getGood());
+		   obj.put("soso", vo.getSoso());
+		   obj.put("bad", vo.getBad());
+		   
+		   result=obj.toJSONString();
+	   }catch(Exception ex){}
+	   return result;
+   }
+   
+   @RequestMapping(value="kotlin_news.do",produces="text/plain;charset=UTF-8")
+   public String food_kotlin_news(String fd)
+   {
+	   String result="";
+	   try
+	   {
+		   if(fd==null || fd.equals(""))
+		   {
+			   fd="맛집";
+		   }
+		   
+		   List<Item> list=mgr.newsListData(fd);
+		   // JSON 변환 
+		   // item ==> 50 => []
+		   JSONArray arr=new JSONArray();
+		   for(Item i:list)
+		   {
+			   JSONObject obj=new JSONObject();
+			   obj.put("title", i.getTitle());
+			   obj.put("description", i.getDescription());
+			   obj.put("author", i.getAuthor());
+			   obj.put("link", i.getLink());
+			   
+			   arr.add(obj);
+		   }
+		   
 		   result=arr.toJSONString();
 	   }catch(Exception ex){}
 	   return result;

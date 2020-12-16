@@ -32,6 +32,10 @@ public class FoodDAO {
 	   return mapper.foodDetailData(no);
 			   
    }
+   public List<FoodDetailVO> foodHouseListData()
+   {
+	   return mapper.foodHouseListData();
+   }
 }
 
 

@@ -30,6 +30,8 @@ public interface FoodMapper {
    //     ============               ========
    // XML  resultType                parameterType
    public FoodDetailVO foodDetailData(int no);
+   @Select("SELECT no,title,poster FROM food_detail ORDER BY no ASC")
+   public List<FoodDetailVO> foodHouseListData();
 }
 
 
