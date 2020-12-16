@@ -38,6 +38,7 @@ public class RecommandManager {
    public List<FoodDetailVO> foodRecommandData()
    {
 	   List<FoodDetailVO> list=new ArrayList<FoodDetailVO>();
+	   List<FoodDetailVO> resultList = new ArrayList<FoodDetailVO>();
 	   try
 	   {
 		   List<FoodDetailVO> dList=dao.foodHouseListData();
@@ -66,6 +67,13 @@ public class RecommandManager {
 				   System.out.println(vo.getTitle()+":"+count[i]);
 			   }
 		   }
+		   
+		   
+          /* for (int i = 0; i < list.size(); i++) {
+               if (!resultList.get(i).getTitle().contains(list.get(i).getTitle())) {
+                   resultList.add(list.get(i));
+               }
+           }*/
 	   }catch(Exception ex){}
 	   return list;
    }

@@ -11,6 +11,8 @@ import javax.annotation.Resource;
 
 import com.sist.dao.*;
 import com.sist.news.*;
+import com.sist.recommand.NaverBlogManager;
+import com.sist.recommand.RecommandManager;
 @RestController
 // 코틀린에서 데이터 받아서 처리 
 @RequestMapping("food/")
@@ -20,6 +22,12 @@ public class MainRestController {
    
    @Resource(name="mgr") // 특정 객체 지정 
    private NewsManager mgr;
+   
+   @Autowired
+   private NaverBlogManager nbm;
+   
+   @Autowired
+   private RecommandManager rm;
    
    @RequestMapping(value="kotlin_list.do",produces="text/plain;charset=UTF-8")
    public String food_kotlin_list(String no)
@@ -170,6 +178,31 @@ public class MainRestController {
 			   arr.add(obj);
 		   }
 		   
+		   result=arr.toJSONString();
+	   }catch(Exception ex){}
+	   return result;
+   }
+   @RequestMapping(value="kotlin_recommand.do",produces="text/plain;charset=UTF-8")
+   public String kotlin_recommand(String fd)
+   {
+	   System.out.println("연결");
+	   String result="";
+	   // XML코드 제작
+	   nbm.naverFindData(fd);
+	   List<FoodDetailVO> list=rm.foodRecommandData();
+	   try
+	   {
+		   // JSON
+		   //[{},{}...]
+		   JSONArray arr=new JSONArray();
+		   for(FoodDetailVO vo:list)
+		   {
+			   JSONObject obj=new JSONObject();
+			   obj.put("no", vo.getNo());
+			   obj.put("title", vo.getTitle());
+			   obj.put("poster", vo.getPoster());
+			   arr.add(obj);
+		   }
 		   result=arr.toJSONString();
 	   }catch(Exception ex){}
 	   return result;
