@@ -29,6 +29,9 @@ public class MainRestController {
    @Autowired
    private RecommandManager rm;
    
+   @Autowired
+   private RecipeDAO rDao;
+   
    @RequestMapping(value="kotlin_list.do",produces="text/plain;charset=UTF-8")
    public String food_kotlin_list(String no)
    {
@@ -201,6 +204,32 @@ public class MainRestController {
 			   obj.put("no", vo.getNo());
 			   obj.put("title", vo.getTitle());
 			   obj.put("poster", vo.getPoster());
+			   arr.add(obj);
+		   }
+		   result=arr.toJSONString();
+	   }catch(Exception ex){}
+	   return result;
+   }
+   // Redux
+   @RequestMapping(value="kotlin_recipe.do",produces="text/plain;charset=UTF-8")
+   public String food_kotlin_recipe(int page)
+   {
+	   String result="";
+	   try
+	   {
+		   // 10 => {},{},{} ==> []
+		   JSONArray arr=new JSONArray();
+		   // 몽고디비로부터 데이터 받기 
+		   List<RecipeVO> list=rDao.recipeListData(page);
+		   for(RecipeVO vo:list)
+		   {
+			   JSONObject obj=new JSONObject();
+			   obj.put("no", vo.getNo());
+			   obj.put("title", vo.getTitle());
+			   obj.put("poster", vo.getPoster());
+			   obj.put("chef", vo.getChef());
+			   obj.put("hit", vo.getHit());
+			   
 			   arr.add(obj);
 		   }
 		   result=arr.toJSONString();

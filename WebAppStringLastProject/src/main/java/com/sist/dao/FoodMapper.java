@@ -32,6 +32,20 @@ public interface FoodMapper {
    public FoodDetailVO foodDetailData(int no);
    @Select("SELECT no,title,poster FROM food_detail ORDER BY no ASC")
    public List<FoodDetailVO> foodHouseListData();
+   
+   @Select("SELECT no,title,poster,chef,num "
+		  +"FROM (SELECT no,title,poster,chef,rownum as num "
+		  +"FROM (SELECT no,title,poster,chef "
+		  +"FROM recipe ORDER BY no ASC)) "
+		  +"WHERE num BETWEEN #{start} AND #{end}")
+   public List<RecipeVO> recipeListData(Map map);
+   
+   @Select("SELECT chef,poster,mem_cont1,mem_cont2,mem_cont3,mem_cont7,num "
+		  +"FROM (SELECT chef,poster,mem_cont1,mem_cont2,mem_cont3,mem_cont7,rownum as num "
+		  +"FROM (SELECT chef,poster,mem_cont1,mem_cont2,mem_cont3,mem_cont7 "
+		  +"FROM chef)) "
+		  +"WHERE num BETWEEN #{start} AND #{end}")
+   public List<ChefVO> chefListData(Map map);
 }
 
 
