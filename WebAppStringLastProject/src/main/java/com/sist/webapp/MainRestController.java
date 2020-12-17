@@ -3,6 +3,7 @@ package com.sist.webapp;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import java.util.*;
@@ -14,6 +15,7 @@ import com.sist.news.*;
 import com.sist.recommand.NaverBlogManager;
 import com.sist.recommand.RecommandManager;
 @RestController
+@CrossOrigin("http://localhost:3000")
 // 코틀린에서 데이터 받아서 처리 
 @RequestMapping("food/")
 public class MainRestController {
@@ -236,6 +238,75 @@ public class MainRestController {
 	   }catch(Exception ex){}
 	   return result;
    }
+   // 쉐프  => recipe 상세 , 쉐프 상세보기 
+   /*
+    *   @Controller ==> 화면 이동 (forward(request를 전송) , redirect) :WEB
+    *   @RestController ==> 화면에 필요한 데이터를 보내준다 (JSON,script,XML,일반문자열)
+    *    ==============
+    *      react+spring , ajax+spring , kotlin+spring => 자바가 아닌 다른 프로그램을 이용시 
+    *      유지 보수 : Spring이 낮은 버전 (@RestController(X), => @ResponseBody)
+    *      
+    *   => Spring 기반 (Java:openjdk) => JSP (중간에 실시간,변경사항이 많은 곳 => react)
+    *   => SI (Web,Mobile)
+    *         ============ 부서변경(AI,RPA)
+    */
+   @RequestMapping(value="kotlin_chef.do",produces="text/plain;charset=UTF-8")
+   public String recipe_kotlin_chef(int page)
+   {
+	   // Model(X)=> web에 값을 전송 => return => 브라우저에 JSON출력 => kotlin,react,nodejs,ajax
+	   String result=""; //JSON
+	   try
+	   {
+		   List<ChefVO> list=rDao.chefListData(page);
+		   // JSON => Kotlin로 전송 
+		   //[] => JSONArray
+		   //{} => JSONObject
+		   JSONArray arr=new JSONArray();
+		   for(ChefVO vo:list)
+		   {
+			   JSONObject obj=new JSONObject();
+			   obj.put("chef", vo.getChef());
+			   obj.put("poster", vo.getPoster());
+			   obj.put("mc1", vo.getMem_cont1());
+			   obj.put("mc2", vo.getMem_cont2());
+			   obj.put("mc3", vo.getMem_cont3());
+			   obj.put("mc7", vo.getMem_cont7());
+			   
+			   arr.add(obj);
+		   }
+		   result=arr.toJSONString();
+	   }catch(Exception ex){}
+	   return result;
+   }
+   @RequestMapping(value="kotlin_recipe_detail.do",produces="text/plain;charset=UTF-8")
+   public String recipe_kotlin_recipe_detail()
+   {
+	   String result="";
+	   return result;
+   }
+   @RequestMapping(value="kotlin_chef_detail.do",produces="text/plain;charset=UTF-8")
+   public String recipe_kotlin_chef_detail(String chef)
+   {
+	   String result="";
+	   try
+	   {
+		   List<RecipeVO> list=rDao.chefDetailData(chef);
+		   // JSON변환 []
+		   JSONArray arr=new JSONArray();
+		   for(RecipeVO vo:list)
+		   {
+			   //{}   
+			   JSONObject obj=new JSONObject();
+			   obj.put("chef", vo.getChef());
+			   obj.put("title", vo.getTitle());
+			   obj.put("poster", vo.getPoster());
+			   arr.add(obj);
+		   }
+		   result=arr.toJSONString();
+	   }catch(Exception ex){}
+	   return result;
+   }
+   
 }
 
 

@@ -77,6 +77,7 @@ public class RecipeDAO {
    // 레시피 데이터 읽기
    public List<RecipeVO> recipeListData(int page)
    {
+	   dbc=db.getCollection("recipe");
 	   List<RecipeVO> list=new ArrayList<RecipeVO>();
 	   try
 	   {
@@ -95,6 +96,71 @@ public class RecipeDAO {
 			   vo.setPoster(obj.getString("poster"));
 			   vo.setChef(obj.getString("chef"));
 			   vo.setHit(obj.getString("hit"));
+			   list.add(vo);
+		   }
+		   cursor.close();
+	   }catch(Exception ex){}
+	   return list;
+   }
+   
+   public List<ChefVO> chefListData(int page)
+   {
+	   dbc=db.getCollection("chef");
+	   List<ChefVO> list=new ArrayList<ChefVO>();
+	   try
+	   {
+		   int rowSize=10;
+		   int skip=(page*rowSize)-rowSize;
+		   // 전체데이터 읽기(ResultSet)
+		   DBCursor cursor=dbc.find().skip(skip).limit(rowSize);
+		   /*
+		    *  {},{},{},{},{}....
+		    *  === ROW(튜플) {} => 읽는 클래스 BasicDBObject
+		    */
+		   while(cursor.hasNext())//cursor에 저장된 갯수만큼 
+		   {
+			   BasicDBObject obj=(BasicDBObject)cursor.next();
+			   ChefVO vo=new ChefVO();
+			   vo.setChef(obj.getString("chef"));
+			   /*
+			    * {
+					    "_id" : ObjectId("5fd9a005bd40ba313f684828"),
+					    "chef" : "시크제이맘",
+					    "poster" : "https://recipe1.ezmember.co.kr/cache/rpf/2016/01/19/3ebaebc5e49f53dd2f66b71932e5a33d1.jpg",
+					    "mc1" : "1,709",
+					    "mc2" : "21,402",
+					    "mc3" : "1,006,425",
+					    "mc7" : "32,735,239"
+					}
+			    */
+			   vo.setPoster(obj.getString("poster"));
+			   vo.setMem_cont1(obj.getString("mc1"));
+			   vo.setMem_cont2(obj.getString("mc2"));
+			   vo.setMem_cont3(obj.getString("mc3"));
+			   vo.setMem_cont7(obj.getString("mc7"));
+			   list.add(vo);
+		   }
+		   cursor.close();
+	   }catch(Exception ex){}
+	   return list;
+   }
+   public List<RecipeVO> chefDetailData(String chef)
+   {
+	   dbc=db.getCollection("recipe");
+	   List<RecipeVO> list=new ArrayList<RecipeVO>();
+	   try
+	   {
+		   BasicDBObject where=new BasicDBObject("chef",chef);
+		   // WHERE chef='chef명'
+		   DBCursor cursor=dbc.find(where).limit(20);
+		   // limit=>가지고 오는 갯수 
+		   while(cursor.hasNext())
+		   {
+			   BasicDBObject obj=(BasicDBObject)cursor.next();
+			   RecipeVO vo=new RecipeVO();
+			   vo.setChef(obj.getString("chef"));
+			   vo.setTitle(obj.getString("title"));
+			   vo.setPoster(obj.getString("poster"));
 			   list.add(vo);
 		   }
 		   cursor.close();

@@ -3,6 +3,7 @@ package com.sist.webapp;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.awt.Dialog.ModalExclusionType;
@@ -40,6 +41,7 @@ import com.sist.news.*;
 import com.sist.recommand.NaverBlogManager;
 import com.sist.recommand.RecommandManager;
 @Controller
+@CrossOrigin("http://localhost:3000")
 // web=>Spring을 이용해서 web프로그램 제작 
 @RequestMapping("food/")
 public class MainController {
