@@ -167,6 +167,37 @@ public class RecipeDAO {
 	   }catch(Exception ex){}
 	   return list;
    }
+   /*
+    *   private int no;
+	   private String poster;
+	   private String title;
+	   private String chef;
+	   private String chef_poster;
+	   private String chef_profile;
+	   private String info1,info2,info3;
+	   private String content;
+	   private String foodmake;
+    */
+   public RecipeDetailVO recipeDetailData(int no)
+   {
+	   RecipeDetailVO vo=new RecipeDetailVO();
+	   try
+	   {
+		   BasicDBObject where=new BasicDBObject("no",no);
+		   // WHERE no=1
+		   BasicDBObject obj=(BasicDBObject)dbc.findOne(where);
+		   // find(): 데이터 여러개 일때 , findOne() : 데이터 한개 정보
+		   vo.setTitle(obj.getString("title"));
+		   vo.setContent(obj.getString("content"));
+		   vo.setPoster(obj.getString("poster"));
+		   vo.setChef(obj.getString("chef"));
+		   vo.setFoodmake(obj.getString("foodmake"));
+		   vo.setInfo1(obj.getString("info1"));
+		   vo.setInfo2(obj.getString("info2"));
+		   vo.setInfo3(obj.getString("info3"));
+	   }catch(Exception ex){}
+	   return vo;
+   }
    
 }
 

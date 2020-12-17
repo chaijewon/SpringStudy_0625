@@ -278,10 +278,34 @@ public class MainRestController {
 	   }catch(Exception ex){}
 	   return result;
    }
+   /*
+    *      vo.setTitle(obj.getString("title"));
+		   vo.setContent(obj.getString("content"));
+		   vo.setPoster(obj.getString("poster"));
+		   vo.setChef(obj.getString("chef"));
+		   vo.setFoodmake(obj.getString("foodmake"));
+		   vo.setInfo1(obj.getString("info1"));
+		   vo.setInfo2(obj.getString("info2"));
+		   vo.setInfo3(obj.getString("info3"));
+    */
    @RequestMapping(value="kotlin_recipe_detail.do",produces="text/plain;charset=UTF-8")
-   public String recipe_kotlin_recipe_detail()
+   public String recipe_kotlin_recipe_detail(int no)
    {
 	   String result="";
+	   try
+	   {
+		   RecipeDetailVO vo=rDao.recipeDetailData(no);
+		   JSONObject obj=new JSONObject();
+		   obj.put("title", vo.getTitle());
+		   obj.put("poster", vo.getPoster());
+		   obj.put("content", vo.getContent());
+		   obj.put("foodmake", vo.getFoodmake());
+		   obj.put("info1", vo.getInfo1());
+		   obj.put("info2", vo.getInfo2());
+		   obj.put("info3", vo.getInfo3());
+		   
+		   result=obj.toJSONString();
+	   }catch(Exception ex){}
 	   return result;
    }
    @RequestMapping(value="kotlin_chef_detail.do",produces="text/plain;charset=UTF-8")
